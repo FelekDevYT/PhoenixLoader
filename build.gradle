@@ -1,0 +1,65 @@
+plugins {
+    id 'java'
+}
+
+group = 'me.felek.fenix'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    mcClasspath
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:6.0.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation("net.bytebuddy:byte-buddy:1.17.8")
+    implementation("net.bytebuddy:byte-buddy-agent:1.18.4")
+
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.2.0")
+    implementation("org.jetbrains.kotlin:kotlin-scripting-jsr223:2.2.0")
+    implementation("org.jetbrains.kotlin:kotlin-scripting-jvm-host-embeddable:1.3.72")
+
+    mcClasspath fileTree('libs/mc_libs')
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task fatJar(type: Jar) {
+    archiveClassifier = 'all'
+    manifest {
+        attributes(
+                'Premain-Class': 'dev.felek.phoenix.PhoenixAgent',
+                'Can-Retransform-Classes': 'true',
+                'Can-Redefine-Classes': 'true'
+        )
+    }
+    from sourceSets.main.output
+    from configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+task runClient(type: JavaExec) {
+    group = 'application'
+
+    dependsOn fatJar
+
+    mainClass = 'net.minecraft.client.main.Main'
+    classpath = configurations.mcClasspath
+
+    jvmArgs "-javaagent:${fatJar.archiveFile.get().asFile.absolutePath}"
+
+    args '--username', 'Felek',
+            '--version', '1.20.1',
+            '--gameDir', 'run',
+            '--assetsDir', 'assets',
+            '--assetDir', 'assets'
+}
