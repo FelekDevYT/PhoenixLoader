@@ -1,5 +1,7 @@
 package dev.felek.phoenix.modding.event;
 
+import dev.felek.phoenix.modding.api.PhoenixMC;
+
 import javax.script.Bindings;
 import javax.script.Compilable;
 import javax.script.CompiledScript;
@@ -49,6 +51,7 @@ public class Listener {
 
     public void invokeFunction(String funcName, Object... args) {
         if (engine == null) return;
+        this.engine.put("phoenix", PhoenixMC.class);
 
         if (engine instanceof Invocable inv) {
             try {

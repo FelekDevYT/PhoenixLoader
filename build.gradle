@@ -9,6 +9,7 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven { url "https://libraries.minecraft.net" }
 }
 
 dependencies {
@@ -23,10 +24,13 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-scripting-jsr223:2.2.0")
     implementation("org.jetbrains.kotlin:kotlin-scripting-jvm-host-embeddable:1.3.72")
 
-    implementation 'org.apache.groovy:groovy:4.0.22'
-    implementation 'org.apache.groovy:groovy-jsr223:4.0.22'
+    implementation 'org.apache.groovy:groovy:5.0.0'
+    implementation 'org.apache.groovy:groovy-jsr223:5.0.0'
 
     implementation 'org.json:json:20240303'
+
+    compileOnly 'com.mojang:datafixerupper:8.0.16'
+    compileOnly 'com.mojang:brigadier:1.3.10'
 
     compileOnly fileTree('libs/mc_libs')
 }

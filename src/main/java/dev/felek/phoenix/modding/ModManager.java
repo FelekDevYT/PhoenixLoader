@@ -1,6 +1,7 @@
 package dev.felek.phoenix.modding;
 
 import dev.felek.phoenix.modding.event.Listener;
+import dev.felek.phoenix.modding.managers.ItemManager;
 import net.minecraft.client.Minecraft;
 import org.json.JSONObject;
 
@@ -26,9 +27,11 @@ import java.util.List;
 public class ModManager {
     private List<Mod> loadedMods = new ArrayList<>();
     private final ScriptEngineManager scriptEngineManager;
+    public ItemManager itemManager;
 
     public ModManager() {
         this.scriptEngineManager = new ScriptEngineManager();
+        this.itemManager = new ItemManager();
     }
 
     public void loadMods() throws IOException, ScriptException {
@@ -75,6 +78,22 @@ public class ModManager {
             for (Listener l : mod.getListeners()) {
                 l.invokeFunction("onTick", minecraftInstance);
             }
+        }
+    }
+
+    public void onItemRegister() {
+        for (Mod mod : loadedMods) {
+            for (Listener l : mod.getListeners()) {
+                l.invokeFunction("onItemRegister");
+            }
+        }
+
+        registerItems();
+    }
+
+    public void registerItems() {
+        for (Mod mod : loadedMods) {
+            itemManager.registerAll();
         }
     }
 }

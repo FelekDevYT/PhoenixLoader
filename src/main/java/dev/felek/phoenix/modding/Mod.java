@@ -1,6 +1,7 @@
 package dev.felek.phoenix.modding;
 
 import dev.felek.phoenix.modding.event.Listener;
+import dev.felek.phoenix.modding.managers.ItemManager;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -18,10 +18,6 @@ public class MinecraftHook {
     public static void intercept(@SuperCall Callable<?> original, @Origin Method method) throws Exception {
         System.out.println("GAME STARTED");
 
-        System.out.println("Initializing mods...");
-        Phoenix.getManager().loadMods();
-        System.out.println("Mods initialized.");
-
         System.out.println("Enabling mods");
         Phoenix.getManager().onEnable(Minecraft.getInstance());
         System.out.println("All mods successfully enabled");
