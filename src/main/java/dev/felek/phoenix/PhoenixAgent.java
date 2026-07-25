@@ -1,6 +1,7 @@
 package dev.felek.phoenix;
 
 import dev.felek.phoenix.hooks.MinecraftHook;
+import dev.felek.phoenix.hooks.TickHook;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.matcher.ElementMatchers;
@@ -20,7 +21,9 @@ public class PhoenixAgent {
         new AgentBuilder.Default()
                 .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
                 .type(ElementMatchers.named("net.minecraft.client.Minecraft"))
-                .transform((b, t, c, mod, prDom) -> b.method(ElementMatchers.named("run")).intercept(MethodDelegation.to(MinecraftHook.class))
+                .transform((b, t, c, mod, prDom) -> b
+                        .method(ElementMatchers.named("run")).intercept(MethodDelegation.to(MinecraftHook.class))
+                        .method(ElementMatchers.named("tick")).intercept(MethodDelegation.to(TickHook.class))
                 ).installOn(I);
 
         System.out.println("All hooks has been installed.");

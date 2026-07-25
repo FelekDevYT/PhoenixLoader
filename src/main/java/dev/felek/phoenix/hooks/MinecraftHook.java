@@ -28,6 +28,10 @@ public class MinecraftHook {
 
         original.call();
 
+        System.out.println("Disabling mods");
+        Phoenix.getManager().onDisable(Minecraft.getInstance());
+        System.out.println("All mods successfully disabled.");
+
         System.out.println("GAME CLOSED");
     }
 }

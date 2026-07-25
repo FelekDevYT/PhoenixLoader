@@ -61,4 +61,20 @@ public class ModManager {
             }
         }
     }
+
+    public void onDisable(Object minecraftInstance) {
+        for (Mod mod : loadedMods) {
+            for (Listener l : mod.getListeners()) {
+                l.invokeFunction("onDisable", minecraftInstance);
+            }
+        }
+    }
+
+    public void onTick(Object minecraftInstance) {
+        for (Mod mod : loadedMods) {
+            for (Listener l : mod.getListeners()) {
+                l.invokeFunction("onTick", minecraftInstance);
+            }
+        }
+    }
 }
