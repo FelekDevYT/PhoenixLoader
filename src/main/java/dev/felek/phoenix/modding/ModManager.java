@@ -1,6 +1,7 @@
 package dev.felek.phoenix.modding;
 
 import dev.felek.phoenix.modding.event.Listener;
+import dev.felek.phoenix.modding.managers.BlockManager;
 import dev.felek.phoenix.modding.managers.ItemManager;
 import dev.felek.phoenix.modding.managers.LanguageManager;
 import net.minecraft.client.Minecraft;
@@ -30,10 +31,12 @@ public class ModManager {
     private List<Mod> loadedMods = new ArrayList<>();
     private final ScriptEngineManager scriptEngineManager;
     public ItemManager itemManager;
+    public BlockManager blockManager;
 
     public ModManager() {
         this.scriptEngineManager = new ScriptEngineManager();
         this.itemManager = new ItemManager();
+        this.blockManager = new BlockManager();
     }
 
     public void loadMods() throws IOException, ScriptException {
@@ -96,8 +99,7 @@ public class ModManager {
     }
 
     public void registerItems() {
-        for (Mod mod : loadedMods) {
-            itemManager.registerAll();
-        }
+        itemManager.registerAll();
+        blockManager.registerAll();
     }
 }
