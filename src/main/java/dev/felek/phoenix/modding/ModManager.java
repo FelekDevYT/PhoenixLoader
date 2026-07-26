@@ -2,6 +2,7 @@ package dev.felek.phoenix.modding;
 
 import dev.felek.phoenix.modding.event.Listener;
 import dev.felek.phoenix.modding.managers.ItemManager;
+import dev.felek.phoenix.modding.managers.LanguageManager;
 import net.minecraft.client.Minecraft;
 import org.json.JSONObject;
 
@@ -17,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @className: ModManager
@@ -53,6 +55,8 @@ public class ModManager {
             Listener listener = new Listener(mod.getMainFile());
             listener.compile(scriptEngineManager);
             mod.getListeners().add(listener);
+
+            LanguageManager.loadLanguages(file.getName(), mod.getModName().toLowerCase());
             System.out.println("Loaded mod: " + mod.getModName() + " v" + mod.getModVersion());
         }
     }
