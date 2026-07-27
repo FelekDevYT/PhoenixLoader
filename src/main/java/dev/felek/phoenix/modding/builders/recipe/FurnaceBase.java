@@ -71,7 +71,7 @@ public class FurnaceBase {
 
         String json = """
                 {
-                    "type": "minecraft:%s",
+                    "type": "%s",
                     "category": "%s",
                     "cookingtime": %d,
                     "experience": %f,

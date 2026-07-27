@@ -8,6 +8,7 @@ import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.matcher.ElementMatchers;
 
+import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.IOException;
 import java.lang.instrument.Instrumentation;
@@ -21,6 +22,11 @@ import java.lang.instrument.Instrumentation;
 public class PhoenixAgent {
     public static void premain(String agentArgs, Instrumentation I) throws ScriptException, IOException {
         System.out.println("Loading agent...");
+
+        System.out.println("Finding possible script engines...");
+        for (var eng : new ScriptEngineManager().getEngineFactories()) {
+            System.out.println("[ FOUND ] - " + eng.getEngineName() + " v" + eng.getEngineVersion() + " Lv" + eng.getLanguageVersion());
+        }
 
         System.out.println("Initializing mods...");
         Phoenix.getManager().loadMods();

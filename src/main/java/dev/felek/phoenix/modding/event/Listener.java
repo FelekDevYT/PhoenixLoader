@@ -33,7 +33,8 @@ public class Listener {
             throw new RuntimeException("File not found.");
         }
 
-        this.engine = manager.getEngineByName("groovy");
+//        this.engine = manager.getEngineByName("groovy");
+        this.engine = manager.getEngineByExtension(file.getName().substring(file.getName().lastIndexOf(".") + 1));
         String content = Files.readString(file.toPath());
 
         this.engine.eval(content);
