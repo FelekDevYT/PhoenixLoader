@@ -1,11 +1,8 @@
 package dev.felek.phoenix.modding.builders;
 
-import dev.felek.phoenix.modding.builders.recipe.Blasting;
-import dev.felek.phoenix.modding.builders.recipe.Cooking;
+import dev.felek.phoenix.modding.builders.recipe.FurnaceBase;
 import dev.felek.phoenix.modding.builders.recipe.Shaped;
 import dev.felek.phoenix.modding.builders.recipe.Shapeless;
-import dev.felek.phoenix.modding.builders.recipe.Smelting;
-import dev.felek.phoenix.modding.builders.recipe.Smoking;
 
 /**
  * @className: RecipeBuilder
@@ -22,19 +19,19 @@ public class RecipeBuilder {
         return new Shapeless(id);
     }
 
-    public static Smelting smelting(String id) {
-        return new Smelting(id);
+    public static FurnaceBase smelting(String id) {
+        return new FurnaceBase(id, "minecraft:smelting");
     }
 
-    public static Blasting blasting(String id) {
-        return new Blasting(id);
+    public static FurnaceBase blasting(String id) {
+        return new FurnaceBase(id, "minecraft::blasting");
     }
 
-    public static Smoking smoking(String id) {
-        return new Smoking(id);
+    public static FurnaceBase smoking(String id) {
+        return new FurnaceBase(id, "minecraft:smoking");
     }
 
-    public static Cooking cooking(String id) {
-        return new Cooking(id);
+    public static FurnaceBase cooking(String id) {
+        return new FurnaceBase(id, "minecraft:campfire_cooking");
     }
 }

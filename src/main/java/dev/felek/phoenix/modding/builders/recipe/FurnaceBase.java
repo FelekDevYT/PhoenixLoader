@@ -6,12 +6,12 @@ import net.minecraft.resources.Identifier;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @className: Cooking
+ * @className: FurnaceBase
  * @author: Felek
- * @date: 27.07.2026 14:51
+ * @date: 27.07.2026 15:11
  */
 
-public class Cooking {
+public class FurnaceBase {
     private float exp = 0.05f;
     private String ingredient;
     private String result;
@@ -20,42 +20,44 @@ public class Cooking {
     private String group;
     private String category = "misc";
     private String id;
+    private String type;
 
-    public Cooking(String id) {
+    public FurnaceBase(String id, String type) {
         this.id = id;
+        this.type = type;
     }
 
-    public Cooking exp(float exp) {
+    public FurnaceBase exp(float exp) {
         this.exp = exp;
         return this;
     }
 
-    public Cooking ingredient(String ingredient) {
+    public FurnaceBase ingredient(String ingredient) {
         this.ingredient = ingredient;
         return this;
     }
 
-    public Cooking cookingTime(int cookingTime) {
+    public FurnaceBase cookingTime(int cookingTime) {
         this.cookingTime = cookingTime;
         return this;
     }
 
-    public Cooking group(String group) {
+    public FurnaceBase group(String group) {
         this.group = group;
         return this;
     }
 
-    public Cooking result(String result) {
+    public FurnaceBase result(String result) {
         this.result = result;
         return this;
     }
 
-    public Cooking resultCount(int resultCount) {
+    public FurnaceBase resultCount(int resultCount) {
         this.resultCount = resultCount;
         return this;
     }
 
-    public Cooking category(String category) {
+    public FurnaceBase category(String category) {
         this.category = category;
         return this;
     }
@@ -65,11 +67,11 @@ public class Cooking {
             throw new RuntimeException("Illegal recipe declaration.");
         }
 
-        String extra = group == null ? "" : ",\n\r\r\r\"group\": \"%s\"".formatted(group);
+        String extra = group == null ? "" : ",\n\t\t\t\"group\": \"%s\"".formatted(group);
 
         String json = """
                 {
-                    "type": "minecraft:campfire_cooking",
+                    "type": "minecraft:%s",
                     "category": "%s",
                     "cookingtime": %d,
                     "experience": %f,
@@ -79,7 +81,7 @@ public class Cooking {
                         "count": %d
                     }%s
                 }
-                """.formatted(category, cookingTime, exp, ingredient, result, resultCount, extra);
+                """.formatted(type, category, cookingTime, exp, ingredient, result, resultCount, extra);
 
         Identifier identifier = Identifier.fromNamespaceAndPath(id.split(":")[0], "recipes/" + id.split(":")[1] + ".json");
         PhoenixResources.INSTANCE.addAsset(identifier, json.getBytes(StandardCharsets.UTF_8));

@@ -20,7 +20,7 @@ public class Shapeless {
     private String result;
     private int resultC;
     private String group;
-    private String category;
+    private String category = "misc";
 
     public Shapeless(String id) {
         this.id = id;
