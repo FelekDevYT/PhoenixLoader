@@ -1,10 +1,12 @@
 package dev.felek.phoenix;
 
 import dev.felek.phoenix.hooks.BootstrapHook;
+import dev.felek.phoenix.hooks.CommandRegistrationHook;
 import dev.felek.phoenix.hooks.MinecraftHook;
 import dev.felek.phoenix.hooks.PackRepositoryHook;
 import dev.felek.phoenix.hooks.TickHook;
 import net.bytebuddy.agent.builder.AgentBuilder;
+import net.bytebuddy.asm.Advice;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.matcher.ElementMatchers;
 
@@ -48,6 +50,12 @@ public class PhoenixAgent {
                 .type(ElementMatchers.named("net.minecraft.server.packs.repository.PackRepository"))
                 .transform((b, t, c, mod, prDom) -> b
                         .method(ElementMatchers.named("openAllSelected")).intercept(MethodDelegation.to(PackRepositoryHook.class))
+                ).installOn(I);
+        new AgentBuilder.Default()
+                .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
+                .type(ElementMatchers.named("net.minecraft.commands.Commands"))
+                .transform((b, t, c, mod, prDom) -> b
+                        .visit(Advice.to(CommandRegistrationHook.class).on(ElementMatchers.isConstructor()))
                 ).installOn(I);
 
         System.out.println("All hooks has been installed.");

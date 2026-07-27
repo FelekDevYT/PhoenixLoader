@@ -24,7 +24,7 @@ public class RecipeBuilder {
     }
 
     public static FurnaceBase blasting(String id) {
-        return new FurnaceBase(id, "minecraft::blasting");
+        return new FurnaceBase(id, "minecraft:blasting");
     }
 
     public static FurnaceBase smoking(String id) {

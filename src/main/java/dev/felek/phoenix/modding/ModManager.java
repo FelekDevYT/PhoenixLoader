@@ -2,15 +2,11 @@ package dev.felek.phoenix.modding;
 
 import dev.felek.phoenix.modding.event.Listener;
 import dev.felek.phoenix.modding.managers.BlockManager;
+import dev.felek.phoenix.modding.managers.command.CommandManager;
 import dev.felek.phoenix.modding.managers.ItemManager;
 import dev.felek.phoenix.modding.managers.LanguageManager;
-import net.minecraft.client.Minecraft;
 import org.json.JSONObject;
 
-import javax.script.Bindings;
-import javax.script.CompiledScript;
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.File;
@@ -19,7 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * @className: ModManager
@@ -32,11 +27,13 @@ public class ModManager {
     private final ScriptEngineManager scriptEngineManager;
     public ItemManager itemManager;
     public BlockManager blockManager;
+    public CommandManager commandManager;
 
     public ModManager() {
         this.scriptEngineManager = new ScriptEngineManager();
         this.itemManager = new ItemManager();
         this.blockManager = new BlockManager();
+        this.commandManager = new CommandManager();
     }
 
     public void loadMods() throws IOException, ScriptException {
