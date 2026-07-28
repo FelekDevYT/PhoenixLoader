@@ -20,6 +20,7 @@ public class MinecraftHook {
 
         System.out.println("Enabling mods");
         Phoenix.getManager().onEnable(Minecraft.getInstance());
+        Phoenix.getManager().keybindManager.registerAllOptions();
         System.out.println("All mods successfully enabled");
 
         original.call();

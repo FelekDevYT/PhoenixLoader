@@ -1,6 +1,7 @@
 package dev.felek.phoenix.modding.api;
 
 import dev.felek.phoenix.Phoenix;
+import dev.felek.phoenix.modding.builders.KeybindBuilder;
 import dev.felek.phoenix.modding.managers.block.Block;
 import dev.felek.phoenix.modding.managers.item.Item;
 import dev.felek.phoenix.modding.managers.command.CommandExecutor;
@@ -39,5 +40,9 @@ public class PhoenixMC {
 
     public static void addToTab(String tabId, Block block) {
         Phoenix.getManager().tabManager.addToTab(tabId, block.getItem());
+    }
+
+    public static void registerKeybind(String name, int keyCode, String category, String eventName) {
+        KeybindBuilder.create(name, keyCode).category(category).eventName(eventName).buildAndRegister();
     }
 }

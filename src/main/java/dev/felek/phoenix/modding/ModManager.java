@@ -5,6 +5,7 @@ import dev.felek.phoenix.modding.managers.block.BlockManager;
 import dev.felek.phoenix.modding.managers.command.CommandManager;
 import dev.felek.phoenix.modding.managers.item.ItemManager;
 import dev.felek.phoenix.modding.managers.LanguageManager;
+import dev.felek.phoenix.modding.managers.keybind.KeybindManager;
 import dev.felek.phoenix.modding.managers.tab.CreativeTabManager;
 import org.json.JSONObject;
 
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class ModManager {
     public BlockManager blockManager;
     public CommandManager commandManager;
     public CreativeTabManager tabManager;
+    public KeybindManager keybindManager;
 
     public ModManager() {
         this.scriptEngineManager = new ScriptEngineManager();
@@ -37,6 +40,7 @@ public class ModManager {
         this.blockManager = new BlockManager();
         this.commandManager = new CommandManager();
         this.tabManager = new CreativeTabManager();
+        this.keybindManager = new KeybindManager();
     }
 
     public void loadMods() throws IOException, ScriptException {
@@ -89,6 +93,8 @@ public class ModManager {
     }
 
     public void onTick(Object minecraftInstance) {
+        keybindManager.onTick();
+
         for (Mod mod : loadedMods) {
             for (Listener l : mod.getListeners()) {
                 l.invokeFunction("onTick", minecraftInstance);
