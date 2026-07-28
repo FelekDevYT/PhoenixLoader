@@ -5,6 +5,11 @@ import dev.felek.phoenix.hooks.CommandRegistrationHook;
 import dev.felek.phoenix.hooks.MinecraftHook;
 import dev.felek.phoenix.hooks.PackRepositoryHook;
 import dev.felek.phoenix.hooks.TickHook;
+import dev.felek.phoenix.hooks.event.BlockEventsHooks;
+import dev.felek.phoenix.hooks.event.EntityEventsHooks;
+import dev.felek.phoenix.hooks.event.ItemEventsHooks;
+import dev.felek.phoenix.hooks.event.PlayerEventsHooks;
+import dev.felek.phoenix.hooks.event.ServerEventsHooks;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.asm.Advice;
 import net.bytebuddy.implementation.MethodDelegation;
@@ -57,6 +62,55 @@ public class PhoenixAgent {
                 .transform((b, t, c, mod, prDom) -> b
                         .visit(Advice.to(CommandRegistrationHook.class).on(ElementMatchers.isConstructor()))
                 ).installOn(I);
+
+        new AgentBuilder.Default()
+                .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
+                .type(ElementMatchers.named("net.minecraft.client.Minecraft"))
+                .transform((b, t, c, mod, prDom) -> b
+                        .method(ElementMatchers.named("run")).intercept(MethodDelegation.to(MinecraftHook.class))
+                        .method(ElementMatchers.named("tick")).intercept(MethodDelegation.to(TickHook.class))
+                )
+                .type(ElementMatchers.named("net.minecraft.server.Bootstrap"))
+                .transform((b, t, c, mod, prDom) -> b
+                        .method(ElementMatchers.named("bootStrap")).intercept(MethodDelegation.to(BootstrapHook.class))
+                )
+                .type(ElementMatchers.named("net.minecraft.server.packs.repository.PackRepository"))
+                .transform((b, t, c, mod, prDom) -> b
+                        .method(ElementMatchers.named("openAllSelected")).intercept(MethodDelegation.to(PackRepositoryHook.class))
+                )
+                .type(ElementMatchers.named("net.minecraft.commands.Commands"))
+                .transform((b, t, c, mod, prDom) -> b
+                        .visit(Advice.to(CommandRegistrationHook.class).on(ElementMatchers.isConstructor()))
+                )
+                .type(ElementMatchers.named("net.minecraft.server.MinecraftServer"))
+                .transform((b, t, c, mod, prDom) -> b
+                        .visit(Advice.to(ServerEventsHooks.ServerStartingHook.class).on(ElementMatchers.named("runServer")))
+                        .visit(Advice.to(ServerEventsHooks.ServerStoppingHook.class).on(ElementMatchers.named("stopServer")))
+                        .visit(Advice.to(ServerEventsHooks.ServerTickHook.class).on(ElementMatchers.named("tickServer")))
+                )
+                .type(ElementMatchers.named("net.minecraft.server.players.PlayerList"))
+                .transform((b, t, c, mod, prDom) -> b
+                        .visit(Advice.to(PlayerEventsHooks.PlayerJoinHook.class).on(ElementMatchers.named("placeNewPlayer")))
+                        .visit(Advice.to(PlayerEventsHooks.PlayerLeaveHook.class).on(ElementMatchers.named("remove")))
+                )
+                .type(ElementMatchers.named("net.minecraft.server.level.ServerPlayerGameMode"))
+                .transform((b, t, c, mod, prDom) -> b
+                        .visit(Advice.to(BlockEventsHooks.BlockBreakHook.class).on(ElementMatchers.named("destroyBlock")))
+                )
+                .type(ElementMatchers.named("net.minecraft.world.entity.LivingEntity"))
+                .transform((b, t, c, mod, prDom) -> b
+                        .visit(Advice.to(EntityEventsHooks.EntityDamageHook.class).on(ElementMatchers.named("hurt")))
+                        .visit(Advice.to(EntityEventsHooks.EntityDeathHook.class).on(ElementMatchers.named("die")))
+                )
+                .type(ElementMatchers.named("net.minecraft.world.item.ItemStack"))
+                .transform((b, t, c, mod, prDom) -> b
+                        .visit(Advice.to(ItemEventsHooks.ItemUseHook.class).on(ElementMatchers.named("use")))
+                )
+                .type(ElementMatchers.named("net.minecraft.server.network.ServerGamePacketListenerImpl"))
+                .transform((b, t, c, mod, prDom) -> b
+                        .visit(Advice.to(PlayerEventsHooks.PlayerChatHook.class).on(ElementMatchers.named("broadcastChatMessage")))
+                )
+                .installOn(I);
 
         System.out.println("All hooks has been installed.");
     }

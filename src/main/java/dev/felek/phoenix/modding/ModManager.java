@@ -61,6 +61,14 @@ public class ModManager {
         }
     }
 
+    public void fireEvent(String name, Object... args) {
+        for (Mod mod : loadedMods) {
+            for (Listener listener : mod.getListeners()) {
+                listener.invokeFunction(name, args);
+            }
+        }
+    }
+
     public void onEnable(Object minecraftInstance) {
         for (Mod mod : loadedMods) {
             for (Listener l : mod.getListeners()) {
