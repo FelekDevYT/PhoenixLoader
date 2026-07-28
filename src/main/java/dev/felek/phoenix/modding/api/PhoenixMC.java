@@ -1,15 +1,9 @@
 package dev.felek.phoenix.modding.api;
 
 import dev.felek.phoenix.Phoenix;
-import dev.felek.phoenix.modding.managers.Block;
-import dev.felek.phoenix.modding.managers.Item;
+import dev.felek.phoenix.modding.managers.block.Block;
+import dev.felek.phoenix.modding.managers.item.Item;
 import dev.felek.phoenix.modding.managers.command.CommandExecutor;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.BlockItem;
-
-import java.util.function.Function;
 
 /**
  * @className: PhoenixMC
@@ -37,5 +31,13 @@ public class PhoenixMC {
 
     public static void registerCommand(String name, CommandExecutor executor) {
         Phoenix.getManager().commandManager.registerCommand(name, executor);
+    }
+
+    public static void addToTab(String tabId, Item item) {
+        Phoenix.getManager().tabManager.addToTab(tabId, item.getItem());
+    }
+
+    public static void addToTab(String tabId, Block block) {
+        Phoenix.getManager().tabManager.addToTab(tabId, block.getItem());
     }
 }

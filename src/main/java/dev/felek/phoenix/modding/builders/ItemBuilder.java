@@ -10,7 +10,6 @@ import net.minecraft.world.item.Item;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Properties;
 
 /**
  * @className: ItemBuilder
@@ -62,7 +61,7 @@ public class ItemBuilder {
         return this;
     }
 
-    public dev.felek.phoenix.modding.managers.Item buildAndRegister() {
+    public dev.felek.phoenix.modding.managers.item.Item buildAndRegister() {
         if (textureName != null) {
             try {
                 String clean = textureName.endsWith(".png") ? textureName : textureName + ".png";
@@ -108,7 +107,7 @@ public class ItemBuilder {
         }
 
         Item mc = new Item(props);
-        dev.felek.phoenix.modding.managers.Item phoenix = new dev.felek.phoenix.modding.managers.Item(id, mc);
+        dev.felek.phoenix.modding.managers.item.Item phoenix = new dev.felek.phoenix.modding.managers.item.Item(id, mc);
 
         PhoenixMC.registerItem(id, phoenix);
         return phoenix;

@@ -1,4 +1,4 @@
-package dev.felek.phoenix.modding.managers;
+package dev.felek.phoenix.modding.managers.block;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;

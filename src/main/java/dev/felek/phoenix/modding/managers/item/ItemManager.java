@@ -1,6 +1,5 @@
-package dev.felek.phoenix.modding.managers;
+package dev.felek.phoenix.modding.managers.item;
 
-import dev.felek.phoenix.modding.Mod;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;

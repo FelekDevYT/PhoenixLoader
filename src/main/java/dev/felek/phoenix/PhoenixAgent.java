@@ -2,6 +2,7 @@ package dev.felek.phoenix;
 
 import dev.felek.phoenix.hooks.BootstrapHook;
 import dev.felek.phoenix.hooks.CommandRegistrationHook;
+import dev.felek.phoenix.hooks.CreativeTabHook;
 import dev.felek.phoenix.hooks.HUDHook;
 import dev.felek.phoenix.hooks.MinecraftHook;
 import dev.felek.phoenix.hooks.PackRepositoryHook;
@@ -41,7 +42,7 @@ public class PhoenixAgent {
         System.out.println("Mods initialized.");
 
         new AgentBuilder.Default()
-                .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
+//                .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
                 .type(ElementMatchers.named("net.minecraft.client.Minecraft"))
                 .transform((b, t, c, mod, prDom) -> b
                         .method(ElementMatchers.named("run")).intercept(MethodDelegation.to(MinecraftHook.class))
@@ -58,28 +59,30 @@ public class PhoenixAgent {
                         .method(ElementMatchers.named("openAllSelected")).intercept(MethodDelegation.to(PackRepositoryHook.class))
                 ).installOn(I);
         new AgentBuilder.Default()
-                .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
+//                .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
                 .type(ElementMatchers.named("net.minecraft.commands.Commands"))
                 .transform((b, t, c, mod, prDom) -> b
                         .visit(Advice.to(CommandRegistrationHook.class).on(ElementMatchers.isConstructor()))
                 ).installOn(I);
         new AgentBuilder.Default()
-                .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
+//                .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
                 .type(ElementMatchers.named("net.minecraft.client.gui.Hud"))
                 .transform((b, t, c, mod, prDom) -> b
                         .visit(Advice.to(HUDHook.class).on(ElementMatchers.named("extractRenderState")))
                 ).installOn(I);
+        new AgentBuilder.Default()
+//                .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
+                .type(ElementMatchers.named("net.minecraft.world.item.CreativeModeTab"))
+                .transform((b, t, c, mod, prDom) -> b
+                        .visit(Advice.to(CreativeTabHook.class).on(ElementMatchers.named("buildContents")))
+                ).installOn(I);
 
         new AgentBuilder.Default()
-                .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
+//                .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
                 .type(ElementMatchers.named("net.minecraft.client.Minecraft"))
                 .transform((b, t, c, mod, prDom) -> b
                         .method(ElementMatchers.named("run")).intercept(MethodDelegation.to(MinecraftHook.class))
                         .method(ElementMatchers.named("tick")).intercept(MethodDelegation.to(TickHook.class))
-                )
-                .type(ElementMatchers.named("net.minecraft.server.Bootstrap"))
-                .transform((b, t, c, mod, prDom) -> b
-                        .method(ElementMatchers.named("bootStrap")).intercept(MethodDelegation.to(BootstrapHook.class))
                 )
                 .type(ElementMatchers.named("net.minecraft.server.packs.repository.PackRepository"))
                 .transform((b, t, c, mod, prDom) -> b

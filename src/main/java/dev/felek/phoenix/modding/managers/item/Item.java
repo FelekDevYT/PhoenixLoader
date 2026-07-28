@@ -1,4 +1,4 @@
-package dev.felek.phoenix.modding.managers;
+package dev.felek.phoenix.modding.managers.item;
 
 /**
  * @className: Item

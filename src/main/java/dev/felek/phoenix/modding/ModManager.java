@@ -1,10 +1,11 @@
 package dev.felek.phoenix.modding;
 
 import dev.felek.phoenix.modding.event.Listener;
-import dev.felek.phoenix.modding.managers.BlockManager;
+import dev.felek.phoenix.modding.managers.block.BlockManager;
 import dev.felek.phoenix.modding.managers.command.CommandManager;
-import dev.felek.phoenix.modding.managers.ItemManager;
+import dev.felek.phoenix.modding.managers.item.ItemManager;
 import dev.felek.phoenix.modding.managers.LanguageManager;
+import dev.felek.phoenix.modding.managers.tab.CreativeTabManager;
 import org.json.JSONObject;
 
 import javax.script.ScriptEngineManager;
@@ -28,12 +29,14 @@ public class ModManager {
     public ItemManager itemManager;
     public BlockManager blockManager;
     public CommandManager commandManager;
+    public CreativeTabManager tabManager;
 
     public ModManager() {
         this.scriptEngineManager = new ScriptEngineManager();
         this.itemManager = new ItemManager();
         this.blockManager = new BlockManager();
         this.commandManager = new CommandManager();
+        this.tabManager = new CreativeTabManager();
     }
 
     public void loadMods() throws IOException, ScriptException {

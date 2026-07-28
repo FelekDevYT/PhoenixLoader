@@ -22,6 +22,7 @@ public class BootstrapHook {
         System.out.println("Unfreezing registries...");
         RegistryUtils.unfreeze(BuiltInRegistries.ITEM);
         RegistryUtils.unfreeze(BuiltInRegistries.BLOCK);
+        RegistryUtils.unfreeze(BuiltInRegistries.CREATIVE_MODE_TAB);
         System.out.println("Unfreeze success!");
 
         System.out.println("Bootstrapping...");
@@ -31,6 +32,7 @@ public class BootstrapHook {
         System.out.println("Refreezing registries...");
         RegistryUtils.refreeze(BuiltInRegistries.ITEM);
         RegistryUtils.refreeze(BuiltInRegistries.BLOCK);
+        RegistryUtils.refreeze(BuiltInRegistries.CREATIVE_MODE_TAB);
         System.out.println("Refreezing success!");
     }
 }

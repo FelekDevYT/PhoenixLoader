@@ -10,10 +10,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
@@ -67,7 +65,7 @@ public class BlockBuilder {
         return this;
     }
 
-    public Block buildAndRegister() {
+    public dev.felek.phoenix.modding.managers.block.Block buildAndRegister() {
         if (textureName != null) {
             try {
                 String clean = textureName.endsWith(".png") ? textureName : textureName + ".png";
@@ -134,9 +132,9 @@ public class BlockBuilder {
         Item.Properties props = new Item.Properties().setId(key);
         BlockItem bi = new BlockItem(mcb, props);
 
-        dev.felek.phoenix.modding.managers.Block phBlock = new dev.felek.phoenix.modding.managers.Block(id, mcb, bi);
+        dev.felek.phoenix.modding.managers.block.Block phBlock = new dev.felek.phoenix.modding.managers.block.Block(id, mcb, bi);
         LootTableBuilder.dropSelf(id);
         PhoenixMC.registerBlock(id, phBlock);
-        return mcb;
+        return phBlock;
     }
 }
