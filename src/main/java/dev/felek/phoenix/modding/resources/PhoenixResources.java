@@ -49,6 +49,10 @@ public class PhoenixResources implements PackResources {
         return null;
     }
 
+    public byte[] getAsset(Identifier id) {
+        return atlas.get(id);
+    }
+
     @Override
     public void listResources(PackType type, String namespace, String directory, ResourceOutput output) {
         atlas.forEach((id, data) -> {

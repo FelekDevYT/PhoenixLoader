@@ -55,6 +55,15 @@ shadowJar {
 
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
+    exclude 'META-INF/*.txt'
+    exclude 'META-INF/*.md'
+    exclude 'META-INF/LICENSE*'
+    exclude 'META-INF/NOTICE*'
+    exclude 'META-INF/DEPENDENCIES'
+    exclude 'META-INF/maven/**'
+    exclude 'META-INF/*.kotlin_module'
+    exclude '**/*.html'
+
     manifest {
         attributes(
                 'Premain-Class': 'dev.felek.phoenix.PhoenixAgent',
