@@ -1,10 +1,13 @@
 package dev.felek.phoenix.modding.api;
 
 import dev.felek.phoenix.Phoenix;
+import dev.felek.phoenix.modding.api.gui.GuiDef;
+import dev.felek.phoenix.modding.api.gui.PhoenixScreen;
 import dev.felek.phoenix.modding.builders.KeybindBuilder;
 import dev.felek.phoenix.modding.managers.block.Block;
 import dev.felek.phoenix.modding.managers.item.Item;
 import dev.felek.phoenix.modding.managers.command.CommandExecutor;
+import net.minecraft.client.Minecraft;
 
 /**
  * @className: PhoenixMC
@@ -44,5 +47,17 @@ public class PhoenixMC {
 
     public static void registerKeybind(String name, int keyCode, String category, String eventName) {
         KeybindBuilder.create(name, keyCode).category(category).eventName(eventName).buildAndRegister();
+    }
+
+    public static void openGui(String id) {
+        GuiDef def = Phoenix.getManager().guiManager.getGui(id);
+        if (def == null) {
+            throw new RuntimeException("Gui doesnt exists!");
+        }
+        Minecraft.getInstance().setScreenAndShow(new PhoenixScreen(def));
+    }
+
+    public static void closeGui() {
+        Minecraft.getInstance().setScreenAndShow(null);
     }
 }

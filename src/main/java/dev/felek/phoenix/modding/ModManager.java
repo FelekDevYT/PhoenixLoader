@@ -3,6 +3,7 @@ package dev.felek.phoenix.modding;
 import dev.felek.phoenix.modding.event.Listener;
 import dev.felek.phoenix.modding.managers.block.BlockManager;
 import dev.felek.phoenix.modding.managers.command.CommandManager;
+import dev.felek.phoenix.modding.managers.gui.GuiManager;
 import dev.felek.phoenix.modding.managers.item.ItemManager;
 import dev.felek.phoenix.modding.managers.LanguageManager;
 import dev.felek.phoenix.modding.managers.keybind.KeybindManager;
@@ -33,6 +34,7 @@ public class ModManager {
     public CommandManager commandManager;
     public CreativeTabManager tabManager;
     public KeybindManager keybindManager;
+    public GuiManager guiManager;
 
     public ModManager() {
         this.scriptEngineManager = new ScriptEngineManager();
@@ -41,6 +43,7 @@ public class ModManager {
         this.commandManager = new CommandManager();
         this.tabManager = new CreativeTabManager();
         this.keybindManager = new KeybindManager();
+        this.guiManager = new GuiManager();
     }
 
     public void loadMods() throws IOException, ScriptException {
