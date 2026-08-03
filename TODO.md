@@ -11,7 +11,6 @@
 - Custom villager types
 - Custom damage types
 - Custom sounds
-- Gradle task for running minecraft
 
 ## Gui subsystem
 - Add textField/textArea component
