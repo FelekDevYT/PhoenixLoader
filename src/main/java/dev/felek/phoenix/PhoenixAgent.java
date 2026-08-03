@@ -12,6 +12,8 @@ import dev.felek.phoenix.hooks.event.EntityEventsHooks;
 import dev.felek.phoenix.hooks.event.ItemEventsHooks;
 import dev.felek.phoenix.hooks.event.PlayerEventsHooks;
 import dev.felek.phoenix.hooks.event.ServerEventsHooks;
+import dev.felek.phoenix.modding.managers.mixin.MixinManager;
+import dev.felek.phoenix.modding.mixin.Mixin;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.asm.Advice;
 import net.bytebuddy.implementation.MethodDelegation;
@@ -31,6 +33,11 @@ import java.lang.instrument.Instrumentation;
 public class PhoenixAgent {
     public static void premain(String agentArgs, Instrumentation I) throws ScriptException, IOException {
         System.out.println("Loading agent...");
+
+        System.out.println("Registering mixins...");
+        MixinManager.init(I);
+        MixinManager.registerMixins();
+        System.out.println("All mixins successffully registered.");
 
         System.out.println("Finding possible script engines...");
         for (var eng : new ScriptEngineManager().getEngineFactories()) {

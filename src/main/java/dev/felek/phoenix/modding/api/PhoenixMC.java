@@ -7,6 +7,8 @@ import dev.felek.phoenix.modding.builders.KeybindBuilder;
 import dev.felek.phoenix.modding.managers.block.Block;
 import dev.felek.phoenix.modding.managers.item.Item;
 import dev.felek.phoenix.modding.managers.command.CommandExecutor;
+import dev.felek.phoenix.modding.managers.mixin.MixinAction;
+import dev.felek.phoenix.modding.managers.mixin.MixinManager;
 import net.minecraft.client.Minecraft;
 
 /**
@@ -55,6 +57,10 @@ public class PhoenixMC {
             throw new RuntimeException("Gui doesnt exists!");
         }
         Minecraft.getInstance().setScreenAndShow(new PhoenixScreen(def));
+    }
+
+    public static void registerMixin(Class<?> target, String method, MixinAction ac) {
+        MixinManager.registerMixin(target, method, ac);
     }
 
     public static void closeGui() {
